@@ -1,18 +1,19 @@
 const canvas = document.getElementById('gallery');
 const ctx = canvas.getContext("2d")
 
-const nPerCircle = 20
+const nPerCircle = 15
 const nCircles = 3
 
 const rdmOffset = Math.random()
 const deviation = .5 / nPerCircle
-const scale = 300
+const scale = 200
+const circleOffset = .6
 
 // Img
 const size = 100
 let images = []
 
-for (let i = 0; i < nPerCircle; i++) {
+for (let i = 0; i < nPerCircle * nCircles; i++) {
   const img = new Image();
   img.src = `https://picsum.photos/${size}/${size}?random=${i}`;
   images.push(img);
@@ -35,8 +36,8 @@ function draw() {
     for (let i = 0; i < nPerCircle; i++) {
       let pos = ((rdmOffset + circle * (1 / nPerCircle / nCircles) + i / nPerCircle + (Math.random() - .5) * deviation) % 1) * Math.PI * 2
   
-      const x = centerX + (Math.cos(pos) * scale * (circle * .3 + 1)) * ratio
-      const y = centerY + (Math.sin(pos) * scale * (circle * .3 + 1))
+      const x = centerX + (Math.cos(pos) * scale * (circle * circleOffset + 1)) * ratio
+      const y = centerY + (Math.sin(pos) * scale * (circle * circleOffset + 1))
   
       ctx.beginPath();
       ctx.strokeStyle = 0xffffff / nPerCircle * i;
@@ -46,7 +47,7 @@ function draw() {
       ctx.lineWidth = 5;
       ctx.stroke();
 
-      // ctx.drawImage(images[i], x - images[i].width / 2, y - images[i].height / 2)
+      ctx.drawImage(images[i + nPerCircle * circle], x - images[i + nPerCircle * circle].width / 2, y - images[i + nPerCircle * circle].height / 2)
     }
   }
   
